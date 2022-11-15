@@ -76,7 +76,12 @@
           - name: default
             public_ip_address_name: webPublicIP
             primary: True
-
+            
+    - name: Create a managed disk
+      azure_rm_manageddisk:
+        name: ansiblemanageddisk
+        resource_group: ansible-rg
+        disk_size_gb: 4
 
     - name: Create VM
       azure_rm_virtualmachine:
