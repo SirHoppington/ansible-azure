@@ -85,7 +85,7 @@
     
     - name: Mount managed disk to VM
       azure_rm_manageddisk:
-        name:mountlinuxdisk
+        name: mountlinuxdisk
         resource_group: ansible-rg
         disk_size_gb: 4
         managed_by: linuxweb1
