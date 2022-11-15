@@ -88,7 +88,7 @@
         network_interfaces: webNic
         os_type: Linux
         image:
-          offer: 001-com-ubuntu-server-focal
+          offer: UbuntuServer
           publisher: Canonical
           sku: 20_04-lts-gen2
           version: latest
