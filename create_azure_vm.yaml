@@ -82,6 +82,14 @@
         name: ansiblemanageddisk
         resource_group: ansible-rg
         disk_size_gb: 4
+    
+    - name: Mount managed disk to VM
+      azure_rm_manageddisk:
+        resource_group: ansible-rg
+        disk_size_gb: 4
+        managed_by: linuxweb1
+        attach_caching: read_only
+        
 
     - name: Create VM
       azure_rm_virtualmachine:
