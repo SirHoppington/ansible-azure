@@ -88,7 +88,7 @@
         network_interfaces: webNic
         os_type: Linux
         image:
-          offer: Ubuntu
-          publisher: Ntegral Inc
-          sku: 22.04 LTS
+          offer: 001-com-ubuntu-server-focal
+          publisher: Canonical
+          sku: 20_04-lts-gen2
           version: latest
