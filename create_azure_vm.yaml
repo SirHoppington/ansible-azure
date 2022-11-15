@@ -90,5 +90,5 @@
         image:
           offer: UbuntuServer
           publisher: Canonical
-          sku: 20_04-lts-gen2
+          sku: 18_04-lts-gen2
           version: latest
