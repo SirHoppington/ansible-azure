@@ -91,3 +91,4 @@
           offer: Ubuntu
           publisher: Ntegral Inc
           sku: 22.04 LTS
+          version: latest
