@@ -1,0 +1,102 @@
+#create_azure_vm.yaml
+---
+- hosts: localhost
+  connection: local
+
+  vars_prompt:
+    - name: password
+      prompt: "Enter local administrator password"
+
+  tasks:
+    - name: Create resource group
+      azure_rm_resourcegroup:
+        name: "{{ rg_name }}"
+        location: "{{ cld_region }} "
+
+    - name: Create virtual network
+      azure_rm_virtualnetwork:
+        resource_group: "{{ rg_name }}"
+        name: " {{ vn_name }} "
+        address_prefixes: "{{ vn_addr_spc }}"
+
+    # Create interesting traffic subnet
+    - name: Add cloud subnets
+      azure_rm_subnet:
+        resource_group: "{{ rg_name }}"
+        name: "{{ item.key }}"
+        address_prefix: "{{ item.value }}"
+        virtual_network: " {{ vn_name }} "
+      loop: "{{cld_subnets|dict2items}}"
+
+    # Create gateway subnet
+    - name: Add gateway subnet
+      azure_rm_subnet:
+        resource_group: "{{ rg_name }}"
+        name: "{{ gw_subnet_name }}"
+        address_prefix: "{{ gw_subnet_prefix }}"
+        virtual_network: " {{ vn_name }} "
+
+    - name: Create public IP address
+        azure_rm_publicipaddress:
+          resource_group: "{{ rg_name }}"
+          allocation_method: Static
+          name: " {{ public_ip_name }} "
+        register: output_ip_address
+
+    - name: Output public IP
+      debug:
+        msg: "The public IP is {{ output_ip_address.state.ip_address }}"
+
+    # Create Virtual network Gateway
+    - name: Creating Virtual network gateway
+      azure_rm_virtualnetworkgateway:
+        resource_group: "{{ rg_name }}"
+        name: "{{ cld_gateway }}"
+        gateway_type: vpn
+        sku: VpnGw2
+        vpn_gateway_generation: Generation 2
+        vpn_type: policy_based
+        virtual_network: " {{ vn_name }} "
+        ip_configurations:
+          - name: "{{ vpn_connection }}"
+            public_ip_address_name: "{{ public_ip_name }} "
+            private_ip_allocation_method: dynamic
+            subnet: "{{ gw_subnet_name }}"
+
+    # Login to AZ CLI to create local network gateway
+    - set_facts:
+        az_creds: "{{ lookup('file', '~/.azure/credentials') }}"
+      check_mode: no
+    - name: Azure CLI Login
+      command: "{{ az_creds | az_login }}"
+
+    - name: Create local network gateway
+      command: >
+        az network local-gateway create
+        --name {{ rmte_gateway }}
+        --resource-group {{ rg_name }}
+        --gateway-ip-address {{ rmte_public_ip }}
+        --local-address-prefixes {{ rmte_subnets|rmte_prfxs }}
+
+      -name: Create VPN connection
+       command: >
+         az network vpn-connection create
+         --name {{ vpn_connection }}
+         --resource-group {{ rg_name }}
+         --vnet-gateway1 {{ cld_gateway }}
+         --shared-key {{ psk }}
+         --local-gateway2 {{ rmte_gateway }}
+
+       -name: Create VPN connection IPSEC policy
+         command: >
+           az network vpn-connection policy add
+           --connection-name {{ vpn_connection }}
+           --resource-group {{ rg_name }}
+           --dh-group {{ dh }}
+           --ike-encryption {{ p1_encr }}
+           --ike-integrity {{ p1_hash }}
+           --ipsec-encryption {{ p2_encr }}
+           --ipsec-integrity {{ p2_hash }}
+           --pfs-group {{ pfs }}
+           --sa-lifetime {{ sa_life }}
+           --sa-max-size {{ sa_size }}

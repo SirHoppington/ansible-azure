@@ -1,0 +1,69 @@
+---
+
+ansible_python_interpreter: "/usr/bin/env python"          # Ubuntu
+
+# Azure base Parameters
+cld_region: westeurope
+rg_name: sts-region
+
+# Azure VPN gateway subnet and object naming
+public_ip_name: VPN_{{ rmte_location }}_{{ cld_provider }}IP
+vn_name: VNet1
+gw_subnet_name: GatewaySubnet
+gw_subnet_prfx: 10.20.255.0/28
+
+# Azure object naming for elements that glue VPN connection together (local and remote details joined in a connection profile)
+cld_gateway: VPN_{{ rmte_location }}_{{ cld_provider }}GW
+rmte_gateway: VPN_{{ rmte_location }}_REMOTE
+vpn_connection: VPN_{{ rmte_location }}_CONN
+
+################################## VPN Variables for both ASA and Azure ##################################
+
+# Define whether it is policy_based (IKEV1) or or route_based (IKEV2) IpSec VPN
+tunnel_type: policy_based
+# tunnel_type: route_based
+
+#Names of the VPN sites
+cld_provider: AZ
+rmte_location: HME
+
+# Remote-side VPN variables - Peer IP address and Interesting traffic
+rmte_public_ip: 80.189.171.145
+rmte_subnets:
+  - 10.10.10.0/24
+  - 10.10.20.0/24
+
+# Cloud-side VPN variables - Peer IP Azure object name, interesting traffic and subnets (for filtering in outside ACL)
+cld_public_ip: 20.71.250.7
+vn_addr_spc:
+  - 10.20.0.0/16
+cld_subnets:
+  vnet1-subnet1: 10.20.10.0/24
+  vnet1-subnet2: 10.20.20.0/24
+
+# VPN PSK, encryption (AES) and hashing (SHA) algorithms - Same names used for IKEv1 or IKEV2 in the playbooks
+# policy-based SKU basic is limited to pre-config defaults https://docs.microsoft.com/en-gb/azure/vpn-gateway/vpn-gateway-about-vpn-devices
+
+## EXAMPLE of IKEV1 (policy-based) parameters - no need to define the PFS
+p1_encr: aes-256            # 3des, aes-256
+p1_hash: sha1               # sha1
+dh: 2                       # 2
+p1_life: 28800              # Azure default
+
+p2_encr: aes-256            # 3des, aes-256
+p2_hash: sha1               # sha1
+sa_life: 3600               # Azure default
+sa_size: 102400000          # Azure default
+
+# Route-based SKU VpnGw1 can use IPsec policy to change IKEV2 settings - https://docs.microsoft.com/en-gb/azure/vpn-gateway/vpn-gateway-about-compliance-crypto?WT.mc_id=Portal-fx
+## EXAMPLE of IKEV2 (route-based) parameters
+# p1_encr: aes-256            # des, 3des, aes-192, aes-256
+# p1_hash: sha384             # md5, sha1, sha256, sha384
+# dh: 24                      # 2, 14, 24
+# p1_life: 28800              # Is fixed to this in Azure
+
+# p2_encr: aes-256            # des, 3des, aes-192, aes-256
+# p2_hash: sha-1              # md5, sha-1, sha-256
+# pfs: group24                # group2, group24
+# sa_life: 27000              # Azure defaults
+# sa_size: 102400000          # Azure defaults
