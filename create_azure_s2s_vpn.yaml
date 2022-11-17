@@ -79,13 +79,13 @@
         --local-address-prefixes {{ rmte_subnets|rmte_prfxs }}
 
     -name: Create VPN connection
-     command: >
-       az network vpn-connection create
-       --name {{ vpn_connection }}
-       --resource-group {{ rg_name }}
-       --vnet-gateway1 {{ cld_gateway }}
-       --shared-key {{ psk }}
-       --local-gateway2 {{ rmte_gateway }}
+      command: >
+        az network vpn-connection create
+        --name {{ vpn_connection }}
+        --resource-group {{ rg_name }}
+        --vnet-gateway1 {{ cld_gateway }}
+        --shared-key {{ psk }}
+        --local-gateway2 {{ rmte_gateway }}
 
     -name: Create VPN connection IPSEC policy
       command: >
