@@ -64,7 +64,7 @@
             subnet: "{{ gw_subnet_name }}"
 
     # Login to AZ CLI to create local network gateway
-    - set_facts:
+    - set_fact:
         az_creds: "{{ lookup('file', '~/.azure/credentials') }}"
       check_mode: no
     - name: Azure CLI Login
