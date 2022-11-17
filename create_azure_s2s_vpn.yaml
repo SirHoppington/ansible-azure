@@ -78,25 +78,25 @@
         --gateway-ip-address {{ rmte_public_ip }}
         --local-address-prefixes {{ rmte_subnets|rmte_prfxs }}
 
-      -name: Create VPN connection
-       command: >
-         az network vpn-connection create
-         --name {{ vpn_connection }}
-         --resource-group {{ rg_name }}
-         --vnet-gateway1 {{ cld_gateway }}
-         --shared-key {{ psk }}
-         --local-gateway2 {{ rmte_gateway }}
+    -name: Create VPN connection
+     command: >
+       az network vpn-connection create
+       --name {{ vpn_connection }}
+       --resource-group {{ rg_name }}
+       --vnet-gateway1 {{ cld_gateway }}
+       --shared-key {{ psk }}
+       --local-gateway2 {{ rmte_gateway }}
 
-       -name: Create VPN connection IPSEC policy
-         command: >
-           az network vpn-connection policy add
-           --connection-name {{ vpn_connection }}
-           --resource-group {{ rg_name }}
-           --dh-group {{ dh }}
-           --ike-encryption {{ p1_encr }}
-           --ike-integrity {{ p1_hash }}
-           --ipsec-encryption {{ p2_encr }}
-           --ipsec-integrity {{ p2_hash }}
-           --pfs-group {{ pfs }}
-           --sa-lifetime {{ sa_life }}
-           --sa-max-size {{ sa_size }}
+    -name: Create VPN connection IPSEC policy
+      command: >
+        az network vpn-connection policy add
+        --connection-name {{ vpn_connection }}
+        --resource-group {{ rg_name }}
+        --dh-group {{ dh }}
+        --ike-encryption {{ p1_encr }}
+        --ike-integrity {{ p1_hash }}
+        --ipsec-encryption {{ p2_encr }}
+        --ipsec-integrity {{ p2_hash }}
+        --pfs-group {{ pfs }}
+        --sa-lifetime {{ sa_life }}
+        --sa-max-size {{ sa_size }}
