@@ -25,7 +25,7 @@
         resource_group: "{{ rg_name }}"
         name: "{{ item.key }}"
         address_prefix: "{{ item.value }}"
-        virtual_network: " {{ vn_name }} "
+        virtual_network: "{{ vn_name }}"
       loop: "{{cld_subnets|dict2items}}"
 
     # Create gateway subnet
@@ -34,13 +34,13 @@
         resource_group: "{{ rg_name }}"
         name: "{{ gw_subnet_name }}"
         address_prefix: "{{ gw_subnet_prefix }}"
-        virtual_network: " {{ vn_name }} "
+        virtual_network: "{{ vn_name }}"
 
     - name: Create public IP address
       azure_rm_publicipaddress:
         resource_group: "{{ rg_name }}"
         allocation_method: Static
-        name: " {{ public_ip_name }} "
+        name: "{{ public_ip_name }}"
         register: output_ip_address
 
     - name: Output public IP
@@ -56,10 +56,10 @@
         sku: VpnGw2
         vpn_gateway_generation: Generation 2
         vpn_type: policy_based
-        virtual_network: " {{ vn_name }} "
+        virtual_network: "{{ vn_name }}"
         ip_configurations:
           - name: "{{ vpn_connection }}"
-            public_ip_address_name: "{{ public_ip_name }} "
+            public_ip_address_name: "{{ public_ip_name }}"
             private_ip_allocation_method: dynamic
             subnet: "{{ gw_subnet_name }}"
 
