@@ -57,7 +57,6 @@
         vpn_type: route_based
         ip_configurations:
          - name: "{{ vpn_connection }}"
-           public_ip_address_name: Dynamic
            private_ip_allocation_method: Dynamic
            subnet: "{{ gw_subnet_name }}"
         virtual_network: "{{ vn_name }}"
