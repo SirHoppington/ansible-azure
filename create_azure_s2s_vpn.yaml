@@ -39,7 +39,7 @@
     - name: Create public IP address
       azure_rm_publicipaddress:
         resource_group: "{{ rg_name }}"
-        allocation_method: Static
+        allocation_method: Dynamic
         name: "{{ public_ip_name }}"
       register: output_ip_address
 
@@ -57,7 +57,7 @@
         vpn_type: route_based
         ip_configurations:
          - name: "{{ vpn_connection }}"
-           public_ip_allocation_method: Dynamic
+           public_ip_address_name: "{{ public_ip_name }}"
            private_ip_allocation_method: Dynamic
            subnet: "{{ gw_subnet_name }}"
         virtual_network: "{{ vn_name }}"
