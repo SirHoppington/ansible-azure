@@ -54,7 +54,6 @@
         name: "{{ cld_gateway }}"
         sku: vpn_gw2
         vpn_type: policy_based
-        vpn_gateway_generation: Generation2
         ip_configurations:
          - name: "{{ vpn_connection }}"
            public_ip_address_name: "{{ public_ip_name }}"
