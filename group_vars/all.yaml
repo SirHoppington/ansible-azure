@@ -6,7 +6,7 @@ rg_name: sts-region
 
 # Azure VPN gateway subnet and object naming
 public_ip_name: VPN_{{ rmte_location }}_{{ cld_provider }}IP
-vn_name: vnet
+vn_name: s2s_vnet
 gw_subnet_name: GatewaySubnet
 gw_subnet_prfx: 10.20.255.0/28
 

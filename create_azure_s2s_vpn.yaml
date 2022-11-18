@@ -16,7 +16,7 @@
     - name: Create virtual network
       azure_rm_virtualnetwork:
         resource_group: "{{ rg_name }}"
-        name: " {{ vn_name }} "
+        name: "{{ vn_name }}"
         address_prefixes: "{{ vn_addr_spc }}"
 
     # Create interesting traffic subnet
