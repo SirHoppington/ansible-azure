@@ -52,14 +52,14 @@
       azure_rm_virtualnetworkgateway:
         resource_group: "{{ rg_name }}"
         name: "{{ cld_gateway }}"
-        sku: VpnGw2
-        vpn_gateway_generation: Generation 2
+        sku: vpn_gw2
+        vpn_gateway_generation: Generation2
         vpn_type: policy_based
         virtual_network: "{{ vn_name }}"
         ip_configurations:
           - name: "{{ vpn_connection }}"
             public_ip_address_name: "{{ public_ip_name }}"
-            private_ip_allocation_method: dynamic
+            private_ip_allocation_method: Dynamic
             subnet: "{{ gw_subnet_name }}"
 
     # Login to AZ CLI to create local network gateway
