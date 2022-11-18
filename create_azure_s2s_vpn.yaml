@@ -53,15 +53,14 @@
         resource_group: "{{ rg_name }}"
         name: "{{ cld_gateway }}"
         sku: vpn_gw2
-        vpn_gateway_generation: Generation2
         vpn_type: policy_based
-        virtual_network: "{{ vn_name }}"
+        vpn_gateway_generation: Generation2
         ip_configurations:
           - name: "{{ vpn_connection }}"
             public_ip_address_name: "{{ public_ip_name }}"
             private_ip_allocation_method: Dynamic
             subnet: "{{ gw_subnet_name }}"
-
+        virtual_network: "{{ vn_name }}"
     # Login to AZ CLI to create local network gateway
     - set_fact:
         az_creds: "{{ lookup('file', '~/.azure/credentials') }}"
