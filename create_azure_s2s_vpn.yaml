@@ -52,7 +52,6 @@
       azure_rm_virtualnetworkgateway:
         resource_group: "{{ rg_name }}"
         name: "{{ cld_gateway }}"
-        gateway_type: vpn
         sku: VpnGw2
         vpn_gateway_generation: Generation 2
         vpn_type: policy_based
