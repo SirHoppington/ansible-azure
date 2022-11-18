@@ -1,7 +1,7 @@
 ---
 
 # Azure base Parameters
-cld_region: westeurope
+cld_region: southuk
 rg_name: sts-region
 
 # Azure VPN gateway subnet and object naming
