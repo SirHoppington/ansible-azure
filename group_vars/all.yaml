@@ -2,7 +2,7 @@
 
 # Azure base Parameters
 cld_region: southuk
-rg_name: sts-region
+rg_name: vpn-rg
 
 # Azure VPN gateway subnet and object naming
 public_ip_name: VPN_{{ rmte_location }}_{{ cld_provider }}IP
