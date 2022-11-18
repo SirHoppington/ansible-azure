@@ -56,10 +56,10 @@
         vpn_type: policy_based
         vpn_gateway_generation: Generation2
         ip_configurations:
-          - name: "{{ vpn_connection }}"
-            public_ip_address_name: "{{ public_ip_name }}"
-            private_ip_allocation_method: Dynamic
-            subnet: "{{ gw_subnet_name }}"
+         - name: "{{ vpn_connection }}"
+           public_ip_address_name: "{{ public_ip_name }}"
+           private_ip_allocation_method: Dynamic
+           subnet: "{{ gw_subnet_name }}"
         virtual_network: "{{ vn_name }}"
     # Login to AZ CLI to create local network gateway
     - set_fact:
