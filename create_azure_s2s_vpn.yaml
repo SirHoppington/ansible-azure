@@ -33,7 +33,7 @@
       azure_rm_subnet:
         resource_group: "{{ rg_name }}"
         name: "{{ gw_subnet_name }}"
-        address_prefix: "{{ gw_subnet_prefix }}"
+        address_prefix: "{{ gw_subnet_prfx }}"
         virtual_network: "{{ vn_name }}"
 
     - name: Create public IP address
