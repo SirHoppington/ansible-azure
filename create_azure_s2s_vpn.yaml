@@ -75,7 +75,6 @@
         --resource-group {{ rg_name }}
         --gateway-ip-address {{ rmte_public_ip }}
         --local-address-prefixes {{ rmte_subnets|rmte_prfxs }}
-
     - name: Create VPN connection
       command: >
         az network vpn-connection create
