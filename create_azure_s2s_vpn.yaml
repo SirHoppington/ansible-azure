@@ -55,8 +55,8 @@
       command: "{{ az_creds | az_login }}"
 
     - name: CLD >> Checking if Virtual network gateway exists
-        shell: az network vnet-gateway list -g {{ rg_name }}
-        register: network_gw
+      shell: az network vnet-gateway list -g {{ rg_name }}
+      register: network_gw
     - set_fact:
         network_gw_exists: "{{ network_gw.stdout|check_az_show(public_ip_name) }}"
 
@@ -74,8 +74,8 @@
       when: not network_gw_exists|bool
 
     - name: CLD >> Checking if local network gateway exists
-        shell: az network local-gateway list -g {{ rg_name }}
-        register: local_gw
+      shell: az network local-gateway list -g {{ rg_name }}
+      register: local_gw
     - set_fact:
         local_gw_exists: "{{ local_gw.stdout|check_az_show(rmte_gateway) }}"
 
