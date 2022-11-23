@@ -65,7 +65,6 @@
         --sku VpnGw2
         --vpn-type RouteBased
         --vpn-gateway-generation Generation2
-        --address-prefixes {{ gw_subnet_name }}
 
     - name: Create local network gateway
       command: >
