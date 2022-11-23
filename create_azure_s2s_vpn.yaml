@@ -90,10 +90,10 @@
         --connection-name {{ vpn_connection }}
         --resource-group {{ rg_name }}
         --dh-group {{ dh }}
-        --ike-encryption {{ p1_encr }}
-        --ike-integrity {{ p1_hash }}
-        --ipsec-encryption {{ p2_encr }}
-        --ipsec-integrity {{ p2_hash }}
-        --pfs-group {{ pfs }}
+        --ike-encryption {{ p1_encr | replace("-", "") | replace("3des", "DES3") | upper }}
+        --ike-integrity {{ p1_hash | upper }}
+        --ipsec-encryption {{ p2_encr | replace("-", "") | replace("3des", "DES3") | upper }}
+        --ipsec-integrity {{ p2_hash | replace("-", "") | upper }}
+        --pfs-group {{ pfs | replace("group", "PFS") }}
         --sa-lifetime {{ sa_life }}
         --sa-max-size {{ sa_size }}
