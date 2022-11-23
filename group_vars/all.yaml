@@ -43,28 +43,28 @@ cld_subnets:
 # policy-based SKU basic is limited to pre-config defaults https://docs.microsoft.com/en-gb/azure/vpn-gateway/vpn-gateway-about-vpn-devices
 
 ## EXAMPLE of IKEV1 (policy-based) parameters - no need to define the PFS
-p1_encr: aes-256            # 3des, aes-256
-p1_hash: sha1               # sha1
-dh: 2                       # 2
-p1_life: 28800              # Azure default
+#p1_encr: aes-256            # 3des, aes-256
+#p1_hash: sha1               # sha1
+#dh: 2                       # 2
+#p1_life: 28800              # Azure default
 
-p2_encr: aes-256            # 3des, aes-256
-p2_hash: sha1               # sha1
-sa_life: 3600               # Azure default
-sa_size: 102400000          # Azure default
+#p2_encr: aes-256            # 3des, aes-256
+#p2_hash: sha1               # sha1
+#sa_life: 3600               # Azure default
+#sa_size: 102400000          # Azure default
 
 # Route-based SKU VpnGw1 can use IPsec policy to change IKEV2 settings - https://docs.microsoft.com/en-gb/azure/vpn-gateway/vpn-gateway-about-compliance-crypto?WT.mc_id=Portal-fx
 ## EXAMPLE of IKEV2 (route-based) parameters
-# p1_encr: aes-256            # des, 3des, aes-192, aes-256
-# p1_hash: sha384             # md5, sha1, sha256, sha384
-# dh: 24                      # 2, 14, 24
-# p1_life: 28800              # Is fixed to this in Azure
+p1_encr: aes-256            # des, 3des, aes-192, aes-256
+p1_hash: sha384             # md5, sha1, sha256, sha384
+dh: 24                      # 2, 14, 24
+p1_life: 28800              # Is fixed to this in Azure
 
-# p2_encr: aes-256            # des, 3des, aes-192, aes-256
-# p2_hash: sha-1              # md5, sha-1, sha-256
-# pfs: group24                # group2, group24
-# sa_life: 27000              # Azure defaults
-# sa_size: 102400000          # Azure defaults
+p2_encr: aes-256            # des, 3des, aes-192, aes-256
+p2_hash: sha-1              # md5, sha-1, sha-256
+pfs: group24                # group2, group24
+sa_life: 27000              # Azure defaults
+sa_size: 102400000          # Azure defaults
 
 psk: !vault |
           $ANSIBLE_VAULT;1.1;AES256
