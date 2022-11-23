@@ -54,7 +54,13 @@
     - name: Azure CLI Login
       command: "{{ az_creds | az_login }}"
 
-    - name: Create local network gateway
+    - name: CLD >> Checking if Virtual network gateway exists
+        shell: az network vnet-gateway list -g {{ rg_name }}
+        register: network_gw
+    - set_fact:
+        network_gw_exists: "{{ network_gw.stdout|check_az_show(public_ip_name) }}"
+
+    - name: Create virtual network gateway
       command: >
         az network vnet-gateway create
         --name {{ cld_gateway }}
@@ -65,14 +71,30 @@
         --sku VpnGw2
         --vpn-type RouteBased
         --vpn-gateway-generation Generation2
+      when: not network_gw_exists|bool
 
-    - name: Create Virtual network gateway
+    - name: CLD >> Checking if local network gateway exists
+        shell: az network local-gateway list -g {{ rg_name }}
+        register: local_gw
+    - set_fact:
+        local_gw_exists: "{{ local_gw.stdout|check_az_show(rmte_gateway) }}"
+
+    - name: Create local network gateway
       command: >
         az network local-gateway create
         --name {{ rmte_gateway }}
         --resource-group {{ rg_name }}
         --gateway-ip-address {{ rmte_public_ip }}
         --local-address-prefixes {{ rmte_subnets|rmte_prfxs }}
+      when: not local_gw_exists|bool
+
+    # check if the vpn-conn exists
+    - name: CLD >> Checking if VPN connection exists
+      shell: az network vpn-connection list -g {{ rg_name }}
+      register: vpn_conns
+    - set_fact:
+        vpn_conn_exists: "{{ vpn_conns.stdout|check_az_show(vpn_connection) }}"
+
     - name: Create VPN connection
       command: >
         az network vpn-connection create
@@ -81,6 +103,7 @@
         --vnet-gateway1 {{ cld_gateway }}
         --shared-key {{ psk }}
         --local-gateway2 {{ rmte_gateway }}
+      when: not vpn_conn_exists|bool
 
     - name: Create VPN connection IPSEC policy
       command: >
@@ -95,3 +118,4 @@
         --pfs-group {{ pfs | replace("group", "PFS") }}
         --sa-lifetime {{ sa_life }}
         --sa-max-size {{ sa_size }}
+      when: not vpn_conn_exists|bool
