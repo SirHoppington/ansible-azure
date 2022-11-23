@@ -66,7 +66,7 @@
         --vpn-type RouteBased
         --vpn-gateway-generation Generation2
 
-    - name: Create local network gateway
+    - name: Create Virtual network gateway
       command: >
         az network local-gateway create
         --name {{ rmte_gateway }}
@@ -84,7 +84,7 @@
 
     - name: Create VPN connection IPSEC policy
       command: >
-        az network vpn-connection policy add
+        az network vpn-connection ipsec-policy add
         --connection-name {{ vpn_connection }}
         --resource-group {{ rg_name }}
         --dh-group {{ dh }}
