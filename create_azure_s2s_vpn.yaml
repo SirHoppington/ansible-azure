@@ -54,7 +54,6 @@
         name: "{{ cld_gateway }}"
         sku: VpnGw2
         gateway_type: vpn
-        vpn_gateway_generation: Generation2
         vpn_type: route_based
         ip_configurations:
          - name: "{{ vpn_connection }}"
