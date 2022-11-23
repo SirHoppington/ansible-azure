@@ -58,6 +58,7 @@
       command: >
         az network vnet-gateway create
         --name {{ cld_gateway }}
+        --resource-group {{ rg_name }}
         --public_ip_address {{ public_ip_name }}
         --vnet {{ vn_name }}
         --gateway-type Vpn
