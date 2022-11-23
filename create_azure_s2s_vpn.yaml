@@ -59,7 +59,7 @@
         az network vnet-gateway create
         --name {{ cld_gateway }}
         --resource-group {{ rg_name }}
-        --public_ip_addresses {{ public_ip_name }}
+        --public-ip-addresses {{ public_ip_name }}
         --vnet {{ vn_name }}
         --gateway-type Vpn
         --sku VpnGw2
