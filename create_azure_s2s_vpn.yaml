@@ -47,24 +47,24 @@
       debug:
         msg: "The public IP is {{ output_ip_address.state.ip_address }}"
 
-    # Create Virtual network Gateway
-    - name: Creating Virtual network gateway
-      azure_rm_virtualnetworkgateway:
-        resource_group: "{{ rg_name }}"
-        name: "{{ cld_gateway }}"
-        vpn_type: route_based
-        ip_configurations:
-         - name: "{{ vpn_connection }}"
-           public_ip_address_name: "{{ public_ip_name }}"
-           private_ip_allocation_method: Dynamic
-           subnet: "{{ gw_subnet_name }}"
-        virtual_network: "{{ vn_name }}"
     # Login to AZ CLI to create local network gateway
     - set_fact:
         az_creds: "{{ lookup('file', '~/.azure/credentials') }}"
       check_mode: no
     - name: Azure CLI Login
       command: "{{ az_creds | az_login }}"
+
+    - name: Create local network gateway
+      command: >
+        az network vnet-gateway create
+        --name {{ cld_gateway }}
+        --public_ip_address {{ public_ip_name }}
+        --vnet {{ vn_name }}
+        --gateway-type Vpn
+        --sku VpnGw2
+        --vpn-type RouteBased
+        --vpn-gateway-generation Generation2
+        --address-prefixes {{ gw_subnet_name }}
 
     - name: Create local network gateway
       command: >
