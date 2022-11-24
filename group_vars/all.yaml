@@ -57,7 +57,7 @@ cld_subnets:
 ## EXAMPLE of IKEV2 (route-based) parameters
 p1_encr: aes-256            # des, 3des, aes-192, aes-256
 p1_hash: sha384             # md5, sha1, sha256, sha384
-dh: 24                      # 2, 14, 24
+dh: DHGroup24                      # 2, 14, 24
 p1_life: 28800              # Is fixed to this in Azure
 
 p2_encr: aes-256            # des, 3des, aes-192, aes-256
